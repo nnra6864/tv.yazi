@@ -60,7 +60,13 @@ function M:entry(job)
 			if not target.is_absolute then
 				target = Url(cwd):join(line)
 			end
-			ya.emit("reveal", { target })
+
+			local cha = fs.cha(target)
+			if cha and cha.is_dir then
+				ya.emit("cd", { target })
+			else
+				ya.emit("reveal", { target })
+			end
 		end
 	end
 end
